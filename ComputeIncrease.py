@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+import argparse
+
 from Config import BASICINFO_PATH, INCREASE_PATH
 pd.set_option('display.max_columns', None)
 
@@ -29,10 +31,18 @@ def computeIncrease(start, end):
         df.sort_values(end_col.replace('order_num', 'up'), inplace=True, ascending=False)
         df.fillna(0, inplace=True)
         df.to_csv(cur_save_path)
+        print(df.head(10))
 
 
-
-
+def genArgParser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-start", "--start", type=str, help="start")
+    parser.add_argument("-end", "--end", type=str, help="end")
+    args = parser.parse_args()
+    return args
 
 if __name__ == '__main__':
-    computeIncrease('2019_04_04', '2019_04_05')
+    input_args = genArgParser()
+    start = input_args.start
+    end = input_args.end
+    computeIncrease(start, end)
