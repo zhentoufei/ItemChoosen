@@ -18,6 +18,7 @@ def computeIncrease(start, end):
 
         if os.path.exists(cur_save_path):
             df = pd.read_csv(cur_save_path)
+            df = pd.merge(src_df, df, how="left", on="itemid")
         else:
             df = src_df[['itemid', 'itemlink']]
 
@@ -30,7 +31,7 @@ def computeIncrease(start, end):
         df[end_col.replace('order_num', 'up')] = src_df[end_col]-src_df[start_col]
         df.sort_values(end_col.replace('order_num', 'up'), inplace=True, ascending=False)
         df.fillna(0, inplace=True)
-        df.to_csv(cur_save_path)
+        df.to_csv(cur_save_path, index=False)
         print(df.head(10))
 
 

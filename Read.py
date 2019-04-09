@@ -28,11 +28,15 @@ def getAllItemBasicInfo(file_list, cid):
         if file_path.find(cid) > 0:
             if file_path.find('msearchitem') > 0:
                 continue
-            df = pd.read_excel(file_path)
-            df['id'] = df['标题链接'].map(lambda x: str(x).split('-')[-1])
-            df = df[['id', '标题链接']]
-            for ele in df.values:
-                id_link_path[ele[0]] = ele[1]
+            try:
+                df = pd.read_excel(file_path)
+                df['id'] = df['标题链接'].map(lambda x: str(x).split('-')[-1])
+                df = df[['id', '标题链接']]
+                for ele in df.values:
+                    id_link_path[ele[0]] = ele[1]
+            except Exception:
+                print(file_path)
+
     itemid = []
     itemlink = []
     for ele in id_link_path.keys():
